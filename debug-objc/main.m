@@ -9,8 +9,15 @@
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        // insert code here...
-        NSLog(@"Hello, World! %@", [NSString class]);
+        
+                NSObject *p = [[NSObject alloc] init];
+                __weak NSObject *p1 = p;
+                
+        //        Class newClass = objc_allocateClassPair(objc_getClass("NSObject"), "newClass", 0);
+        //        objc_registerClassPair(newClass);
+        //        id newObject = [[newClass alloc]init];
+        //        NSLog(@"%s",class_getName([newObject class]));
+        //        NSLog(@"Hello, World!");
     }
     return 0;
 }

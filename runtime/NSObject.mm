@@ -102,8 +102,11 @@ enum HaveOld { DontHaveOld = false, DoHaveOld = true };
 enum HaveNew { DontHaveNew = false, DoHaveNew = true };
 
 struct SideTable {
+    // 内旋锁
     spinlock_t slock;
+    // 引用计数
     RefcountMap refcnts;
+    // weak 引用
     weak_table_t weak_table;
 
     SideTable() {

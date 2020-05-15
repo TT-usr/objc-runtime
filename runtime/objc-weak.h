@@ -117,9 +117,16 @@ struct weak_entry_t {
  * and weak_entry_t structs as their values.
  */
 struct weak_table_t {
+    // 保存了所有指向指定对象的 weak 指针
     weak_entry_t *weak_entries;
+    
+    // // 存储空间
     size_t    num_entries;
+    
+    // 参与判断引用计数辅助量
     uintptr_t mask;
+    
+    // hash key 最大偏移值
     uintptr_t max_hash_displacement;
 };
 
