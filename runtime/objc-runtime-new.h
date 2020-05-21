@@ -693,17 +693,17 @@ struct protocol_list_t {
 struct class_ro_t {
     uint32_t flags;
     uint32_t instanceStart;
-    uint32_t instanceSize;
+    uint32_t instanceSize; // instance对象占用的内存空间
 #ifdef __LP64__
     uint32_t reserved;
 #endif
 
     const uint8_t * ivarLayout;
     
-    const char * name;
-    method_list_t * baseMethodList;
+    const char * name; // 类名
+    method_list_t * baseMethodList; // 类原来的方法列表,未添加分类信息等额外方法的原始方法列表
     protocol_list_t * baseProtocols;
-    const ivar_list_t * ivars;
+    const ivar_list_t * ivars; // 成员变量列表
 
     const uint8_t * weakIvarLayout;
     property_list_t *baseProperties;
@@ -888,10 +888,10 @@ class list_array_tt {
             // many lists -> many lists
             uint32_t oldCount = array()->count;
             uint32_t newCount = oldCount + addedCount;
-            setArray((array_t *)realloc(array(), array_t::byteSize(newCount)));
+            setArray((array_t *)realloc(array(), array_t::byteSize(newCount))); // 重新开辟内存
             array()->count = newCount;
             memmove(array()->lists + addedCount, array()->lists, 
-                    oldCount * sizeof(array()->lists[0]));
+                    oldCount * sizeof(array()->lists[0]));// 将新的list插在最前面
             memcpy(array()->lists, addedLists, 
                    addedCount * sizeof(array()->lists[0]));
         }
@@ -995,9 +995,9 @@ struct class_rw_t {
 
     const class_ro_t *ro;
 
-    method_array_t methods;
-    property_array_t properties;
-    protocol_array_t protocols;
+    method_array_t methods; // 方法列表
+    property_array_t properties; // 属性列表
+    protocol_array_t protocols; // 协议列表
 
     Class firstSubclass;
     Class nextSiblingClass;
@@ -1145,7 +1145,9 @@ public:
 struct objc_class : objc_object {
     // Class ISA;
     Class superclass;
+    // 方法缓存
     cache_t cache;             // formerly cache pointer and vtable
+    // 用于获取具体的类信息
     class_data_bits_t bits;    // class_rw_t * plus custom rr/alloc flags
 
     class_rw_t *data() const {

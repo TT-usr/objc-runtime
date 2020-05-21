@@ -2929,7 +2929,7 @@ void _objc_flush_caches(Class cls)
 
 /***********************************************************************
 * map_images
-* Process the given images which are being mapped in by dyld.
+* Process the given images which are being mapped in by dyld. 处理
 * Calls ABI-agnostic code after taking ABI-specific locks.
 *
 * Locking: write-locks runtimeLock
@@ -3667,7 +3667,7 @@ void _read_images(header_info **hList, uint32_t hCount, int totalClasses, int un
 
 /***********************************************************************
 * prepare_load_methods
-* Schedule +load for classes in this image, any un-+load-ed 
+* Schedule +load for classes in this image, any un-+load-ed
 * superclasses in other images, and any categories in this image.
 **********************************************************************/
 // Recursively schedule +load for cls and any un-+load-ed superclasses.
@@ -3695,6 +3695,7 @@ bool hasLoadMethods(const headerType *mhdr)
     return false;
 }
 
+// 准备load 方法
 void prepare_load_methods(const headerType *mhdr)
 {
     size_t count, i;
@@ -3702,12 +3703,12 @@ void prepare_load_methods(const headerType *mhdr)
     runtimeLock.assertLocked();
 
     classref_t const *classlist = 
-        _getObjc2NonlazyClassList(mhdr, &count);
+        _getObjc2NonlazyClassList(mhdr, &count);// 获取非懒加载的类
     for (i = 0; i < count; i++) {
-        schedule_class_load(remapClass(classlist[i]));
+        schedule_class_load(remapClass(classlist[i])); //
     }
 
-    category_t * const *categorylist = _getObjc2NonlazyCategoryList(mhdr, &count);
+    category_t * const *categorylist = _getObjc2NonlazyCategoryList(mhdr, &count); // 获取非懒加载的category
     for (i = 0; i < count; i++) {
         category_t *cat = categorylist[i];
         Class cls = remapClass(cat->cls);
@@ -3718,7 +3719,7 @@ void prepare_load_methods(const headerType *mhdr)
         }
         realizeClassWithoutSwift(cls, nil);
         ASSERT(cls->ISA()->isRealized());
-        add_category_to_loadable_list(cat);
+        add_category_to_loadable_list(cat); // 添加category的load方法
     }
 }
 

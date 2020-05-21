@@ -97,7 +97,9 @@ public:
         return _value;
     }
 };
-
+/**
+ 关联对象的结构
+ */
 typedef DenseMap<const void *, ObjcAssociation> ObjectAssociationMap;
 typedef DenseMap<DisguisedPtr<objc_object>, ObjectAssociationMap> AssociationsHashMap;
 
